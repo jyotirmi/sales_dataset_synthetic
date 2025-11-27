@@ -84,31 +84,19 @@ synthetic_data_sales/
      export SNOWFLAKE_ACCOUNT="your_account"
      export SNOWFLAKE_WAREHOUSE="your_warehouse"
      ```
+   - Or create a `.env` file (copy from `.env.example`)
+   - Run DDL script: `sql/snowflake_ddl_script.sql` in Snowflake Web UI
+   - Run loader: `python3 scripts/load_to_snowflake.py`
    - See `docs/QUICK_START_SNOWFLAKE.md` for detailed instructions
-   - Run: `python3 scripts/load_to_snowflake.py`
 
-## 🚀 Quick Start (Legacy)
+6. **Verify the dataset:**
+   ```bash
+   python3 scripts/verify_dataset.py
+   ```
 
-### 1. Generate Data
+### Load into Databricks
 
-```bash
-# Run all four generator scripts
-python3 scripts/sales_data_generator_part1.py
-python3 scripts/sales_data_generator_part2.py
-python3 scripts/sales_data_generator_part3.py
-python3 scripts/sales_data_generator_part4.py
-
-# Verify generation
-python3 scripts/verify_dataset.py
-```
-
-### 2. Load into Snowflake
-
-See `docs/QUICK_START_SNOWFLAKE.md` for quick instructions, or `docs/SNOWFLAKE_LOADING_GUIDE.md` for detailed guide.
-
-### 3. Load into Databricks
-
-See `docs/databricks_upload_readme.md` for instructions.
+See `docs/databricks_upload_readme.md` for Databricks setup instructions.
 
 ## 📊 Dataset Overview
 
@@ -135,31 +123,19 @@ See `docs/databricks_upload_readme.md` for instructions.
 - snowflake-connector-python (for Snowflake loading)
 - Snowflake account OR Databricks workspace
 
-## 📝 Usage
+## 📝 Detailed Usage
 
-### Generate Data
-```bash
-python3 scripts/sales_data_generator_part1.py
-python3 scripts/sales_data_generator_part2.py
-python3 scripts/sales_data_generator_part3.py
-python3 scripts/sales_data_generator_part4.py
-```
+For more detailed instructions, see:
+- **Quick Start Guide**: `docs/QUICK_START_SNOWFLAKE.md`
+- **Complete Loading Guide**: `docs/SNOWFLAKE_LOADING_GUIDE.md`
+- **Databricks Setup**: `docs/databricks_upload_readme.md`
 
-### Load to Snowflake
-```bash
-# 1. Run DDL script in Snowflake Web UI (sql/snowflake_ddl_script.sql)
-# 2. Set environment variables (see .env.example)
-# 3. Run loader
-python3 scripts/load_to_snowflake.py
+### Optional: Row-Level Security
 
-# Optional: Configure row-level security (after loading data)
-# Run sql/security_policies_snowflake.sql in Snowflake Web UI
-```
-
-### Verify Dataset
-```bash
-python3 scripts/verify_dataset.py
-```
+After loading data, you can optionally configure row-level security:
+- Run `sql/security_policies_snowflake.sql` in Snowflake Web UI
+- This enables sales reps to see only their data, managers see their team's data
+- See the script comments for detailed setup instructions
 
 ## 🗂️ File Organization
 
