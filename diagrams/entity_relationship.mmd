@@ -1,0 +1,135 @@
+erDiagram
+    CUSTOMERS ||--o{ OPPORTUNITIES : "has"
+    CUSTOMERS ||--o{ CLOSED_DEALS : "generates"
+    CUSTOMERS ||--o{ CUSTOMER_PRODUCTS : "owns"
+    CUSTOMERS ||--o{ PRODUCT_USAGE_SUMMARY : "uses"
+    CUSTOMERS ||--o{ SUPPORT_TICKETS : "creates"
+    CUSTOMERS ||--o{ CUSTOMER_HEALTH_SCORE : "scored"
+    
+    PRODUCTS ||--o{ OPPORTUNITIES : "sold_in"
+    PRODUCTS ||--o{ CUSTOMER_PRODUCTS : "installed"
+    PRODUCTS ||--o{ PRODUCT_USAGE_SUMMARY : "tracked"
+    
+    OPPORTUNITIES ||--o| CLOSED_DEALS : "closes_as"
+    OPPORTUNITIES ||--o{ MARKETING_ATTRIBUTION : "attributed"
+    
+    CAMPAIGNS ||--o{ LEADS : "generates"
+    CAMPAIGNS ||--o{ MARKETING_ATTRIBUTION : "contributes"
+    
+    LEADS ||--o| OPPORTUNITIES : "converts_to"
+    
+    SUPPORT_TICKETS ||--o| TICKET_RESOLUTION : "resolved_by"
+    SUPPORT_TICKETS ||--o| CUSTOMER_SATISFACTION : "rated_in"
+    
+    CUSTOMERS {
+        varchar customer_id PK
+        varchar customer_name
+        varchar industry
+        varchar company_size
+        varchar region
+        varchar account_owner
+        varchar customer_tier
+    }
+    
+    PRODUCTS {
+        varchar product_id PK
+        varchar product_name
+        varchar product_category
+        number unit_price
+        varchar product_line
+        date release_date
+    }
+    
+    OPPORTUNITIES {
+        varchar opportunity_id PK
+        varchar customer_id FK
+        varchar product_id FK
+        varchar stage
+        number amount
+        integer probability
+        date close_date
+        varchar sales_rep
+    }
+    
+    CLOSED_DEALS {
+        varchar deal_id PK
+        varchar opportunity_id FK
+        varchar customer_id FK
+        varchar product_id FK
+        number deal_value
+        varchar status
+        integer sales_cycle_days
+    }
+    
+    PRODUCT_USAGE_SUMMARY {
+        varchar usage_id PK
+        varchar customer_id FK
+        varchar product_id FK
+        date usage_date
+        integer active_users
+        number license_utilization
+        varchar health_score
+    }
+    
+    CAMPAIGNS {
+        varchar campaign_id PK
+        varchar campaign_name
+        varchar campaign_type
+        varchar channel
+        number budget
+        varchar status
+    }
+    
+    LEADS {
+        varchar lead_id PK
+        varchar company_name
+        varchar contact_name
+        varchar email
+        varchar campaign_id FK
+        integer lead_score
+        varchar lead_status
+    }
+    
+    MARKETING_ATTRIBUTION {
+        varchar attribution_id PK
+        varchar opportunity_id FK
+        varchar campaign_id FK
+        integer touchpoint_order
+        number attribution_weight
+    }
+    
+    SUPPORT_TICKETS {
+        varchar ticket_id PK
+        varchar customer_id FK
+        varchar product_id FK
+        varchar priority
+        varchar severity
+        varchar status
+        varchar sla_status
+    }
+    
+    TICKET_RESOLUTION {
+        varchar resolution_id PK
+        varchar ticket_id FK
+        varchar resolution_type
+        varchar root_cause
+        number effort_hours
+    }
+    
+    CUSTOMER_SATISFACTION {
+        varchar csat_id PK
+        varchar ticket_id FK
+        varchar customer_id FK
+        integer satisfaction_score
+        text feedback_text
+    }
+    
+    CUSTOMER_HEALTH_SCORE {
+        varchar health_score_id PK
+        varchar customer_id FK
+        number overall_score
+        varchar risk_level
+        number churn_probability
+    }
+
+

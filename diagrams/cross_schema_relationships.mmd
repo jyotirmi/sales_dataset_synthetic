@@ -1,0 +1,52 @@
+graph LR
+    subgraph SALES["📊 SALES_DATA<br/>17 tables"]
+        CUST[CUSTOMERS]
+        OPP[OPPORTUNITIES]
+        DEALS[CLOSED_DEALS]
+    end
+    
+    subgraph USAGE["📈 USAGE_DATA<br/>11 tables"]
+        USAGE_SUM[PRODUCT_USAGE_SUMMARY]
+        FEAT[FEATURE_USAGE]
+        TELEM[TELEMETRY_EVENTS]
+    end
+    
+    subgraph MARKETING["📢 MARKETING_DATA<br/>13 tables"]
+        CAMP[CAMPAIGNS]
+        LEAD[LEADS]
+        ATTR[MARKETING_ATTRIBUTION]
+    end
+    
+    subgraph SUPPORT["🎧 SUPPORT_DATA<br/>12 tables"]
+        TICKETS[SUPPORT_TICKETS]
+        RESOL[TICKET_RESOLUTION]
+        CSAT[CUSTOMER_SATISFACTION]
+    end
+    
+    subgraph OPS["⚙️ OPERATIONAL_DATA<br/>9 tables"]
+        HEALTH[CUSTOMER_HEALTH_SCORE]
+        ONBOARD[ONBOARDING_PROGRESS]
+        CS_ACT[CUSTOMER_SUCCESS_ACTIVITIES]
+    end
+    
+    CUST -->|references| USAGE_SUM
+    CUST -->|creates| TICKETS
+    CUST -->|scored in| HEALTH
+    CUST -->|converts from| LEAD
+    
+    LEAD -->|converts to| OPP
+    CAMP -->|generates| LEAD
+    ATTR -->|attributes| OPP
+    
+    OPP -->|closes as| DEALS
+    
+    TICKETS -->|resolved by| RESOL
+    TICKETS -->|rated in| CSAT
+    
+    style SALES fill:#e1f5ff
+    style USAGE fill:#fff4e1
+    style MARKETING fill:#ffe1f5
+    style SUPPORT fill:#e1ffe1
+    style OPS fill:#f5e1ff
+
+

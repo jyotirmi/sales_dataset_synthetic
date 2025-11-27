@@ -1,0 +1,22 @@
+# Sales Analytics Demo Dataset - Python Dependencies
+# 
+# Installation:
+#   python3 -m venv venv
+#   source venv/bin/activate  # On Windows: venv\Scripts\activate
+#   pip install -r requirements.txt
+#
+# Core dependencies for data generation and Snowflake loading
+pandas>=2.0.0
+numpy>=1.24.0
+snowflake-connector-python>=3.0.0
+python-dotenv>=1.0.0  # For loading .env files
+
+# Optional dependencies for analysis scripts
+# Uncomment if you need to run analyze_usage_distribution.py
+# scipy>=1.10.0
+# matplotlib>=3.7.0
+
+# Optional dependencies for Databricks loading
+# Uncomment if you need to load data into Databricks
+# databricks-sdk>=0.60.0
+

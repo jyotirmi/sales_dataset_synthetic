@@ -1,0 +1,57 @@
+graph TB
+    subgraph SALES_DATA["📊 SALES_DATA Schema (17 tables)"]
+        CUSTOMERS["CUSTOMERS<br/>• customer_id PK<br/>• customer_name<br/>• industry<br/>• company_size<br/>• region<br/>• account_owner"]
+        PRODUCTS["PRODUCTS<br/>• product_id PK<br/>• product_name<br/>• product_category<br/>• unit_price<br/>• product_line"]
+        OPPORTUNITIES["OPPORTUNITIES<br/>• opportunity_id PK<br/>• customer_id FK<br/>• product_id FK<br/>• stage<br/>• amount<br/>• probability<br/>• close_date"]
+        CLOSED_DEALS["CLOSED_DEALS<br/>• deal_id PK<br/>• opportunity_id FK<br/>• customer_id FK<br/>• deal_value<br/>• status<br/>• sales_cycle_days"]
+        
+        CUSTOMERS --> OPPORTUNITIES
+        PRODUCTS --> OPPORTUNITIES
+        OPPORTUNITIES --> CLOSED_DEALS
+    end
+    
+    subgraph USAGE_DATA["📈 USAGE_DATA Schema (11 tables)"]
+        PRODUCT_USAGE["PRODUCT_USAGE_SUMMARY<br/>• usage_id PK<br/>• customer_id FK<br/>• product_id FK<br/>• active_users<br/>• license_utilization<br/>• health_score"]
+        FEATURE_USAGE["FEATURE_USAGE<br/>• feature_usage_id PK<br/>• customer_id FK<br/>• product_id FK<br/>• feature_name<br/>• usage_count<br/>• adoption_status"]
+        TELEMETRY["TELEMETRY_EVENTS<br/>• event_id PK<br/>• customer_id FK<br/>• product_id FK<br/>• event_timestamp<br/>• event_type<br/>• severity"]
+    end
+    
+    subgraph MARKETING_DATA["📢 MARKETING_DATA Schema (13 tables)"]
+        CAMPAIGNS["CAMPAIGNS<br/>• campaign_id PK<br/>• campaign_name<br/>• campaign_type<br/>• channel<br/>• budget<br/>• status"]
+        LEADS["LEADS<br/>• lead_id PK<br/>• company_name<br/>• contact_name<br/>• email<br/>• lead_score<br/>• lead_status<br/>• campaign_id FK"]
+        MARKETING_ATTR["MARKETING_ATTRIBUTION<br/>• attribution_id PK<br/>• opportunity_id FK<br/>• campaign_id FK<br/>• touchpoint_order<br/>• attribution_weight"]
+        
+        CAMPAIGNS --> LEADS
+        CAMPAIGNS --> MARKETING_ATTR
+    end
+    
+    subgraph SUPPORT_DATA["🎧 SUPPORT_DATA Schema (12 tables)"]
+        SUPPORT_TICKETS["SUPPORT_TICKETS<br/>• ticket_id PK<br/>• customer_id FK<br/>• product_id FK<br/>• priority<br/>• severity<br/>• status<br/>• sla_status"]
+        TICKET_RESOLUTION["TICKET_RESOLUTION<br/>• resolution_id PK<br/>• ticket_id FK<br/>• resolution_type<br/>• root_cause<br/>• effort_hours"]
+        CUSTOMER_SAT["CUSTOMER_SATISFACTION<br/>• csat_id PK<br/>• ticket_id FK<br/>• customer_id FK<br/>• satisfaction_score<br/>• feedback_text"]
+        
+        SUPPORT_TICKETS --> TICKET_RESOLUTION
+        SUPPORT_TICKETS --> CUSTOMER_SAT
+    end
+    
+    subgraph OPERATIONAL_DATA["⚙️ OPERATIONAL_DATA Schema (9 tables)"]
+        HEALTH_SCORE["CUSTOMER_HEALTH_SCORE<br/>• health_score_id PK<br/>• customer_id FK<br/>• overall_score<br/>• risk_level<br/>• churn_probability"]
+        ONBOARDING["ONBOARDING_PROGRESS<br/>• onboarding_id PK<br/>• customer_id FK<br/>• product_id FK<br/>• status<br/>• progress_percent<br/>• csm_assigned"]
+        CS_ACTIVITIES["CUSTOMER_SUCCESS_ACTIVITIES<br/>• activity_id PK<br/>• customer_id FK<br/>• activity_type<br/>• csm_name<br/>• outcome<br/>• sentiment"]
+    end
+    
+    %% Cross-schema relationships
+    CUSTOMERS -.-> PRODUCT_USAGE
+    CUSTOMERS -.-> SUPPORT_TICKETS
+    CUSTOMERS -.-> HEALTH_SCORE
+    CUSTOMERS -.-> LEADS
+    LEADS -.-> OPPORTUNITIES
+    MARKETING_ATTR -.-> OPPORTUNITIES
+    
+    style SALES_DATA fill:#e1f5ff
+    style USAGE_DATA fill:#fff4e1
+    style MARKETING_DATA fill:#ffe1f5
+    style SUPPORT_DATA fill:#e1ffe1
+    style OPERATIONAL_DATA fill:#f5e1ff
+
+
